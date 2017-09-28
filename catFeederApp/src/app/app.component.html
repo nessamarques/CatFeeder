@@ -1,0 +1,13 @@
+<app-menu></app-menu>
+
+<div class="container">
+    <h1>{{title}}</h1>
+</div>
+
+
+<br/><br/>
+
+<!-- TODO: Chamar pagina de login pela rota -->
+<div *ngIf="!loggedUser">
+    <app-login></app-login>
+</div>
