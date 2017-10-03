@@ -1,19 +1,19 @@
 <div class="wrapper">
-    <form class="">
+    <form (ngSubmit)="onSubmit">
         <div class="container">
             <label><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input type="text" placeholder="Enter Username" required>
         
             <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" placeholder="Enter Password" required>
         
             <button type="submit">Login</button>
             <input type="checkbox" checked="checked"> Remember me
-            </div>
+        </div>
         
-            <div class="container" style="background-color:#f1f1f1">
+        <div class="container footer">
             <button type="button" class="cancelbtn">Cancel</button>
             <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
+        </div>
     </form>
 </div>

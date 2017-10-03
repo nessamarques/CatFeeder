@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'login',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  title = 'Please login';
+  public title: string = 'Please login';
+  public app: any;
+
+  constructor(appComp: AppComponent) {
+    this.app = appComp;
+  }
+
+  onsubmit(){
+    console.log("submit");
+
+    this.app.loggedUser = true;
+  }
 }

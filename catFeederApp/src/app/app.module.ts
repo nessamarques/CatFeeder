@@ -6,19 +6,17 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 
-//import { AppRoutingModule } from './app-routing.module';
-//import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    LoginComponent,
-    //AppRoutingModule //,
-    //routingComponents
+    LoginComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,21 +10,14 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
 
+    <!-- <form class="form-inline my-2 my-lg-0"> --> 
         <div *ngIf="loggedUser">
           <a class="nav-link" href="#">Welcome {{user}}</a>
         </div>
-
         <div *ngIf="!loggedUser">
           <a class="nav-link" routerLink="/login">Sign in</a>
         </div>
-
-    </form>
+    <!-- </form> --> 
   </div>
 </nav>
-
-<!--
-<div class="container">
-  <router-outlet></router-outlet>
-</div>-->

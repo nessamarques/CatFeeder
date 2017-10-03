@@ -5,10 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'Cat feeder';
 
   //TODO: Pegar usuário logado
-  public user : string = 'Vanessa Marques';    
+  public username : string = '';    
+  public password : string = '';
   public loggedUser : boolean = false;
 }
