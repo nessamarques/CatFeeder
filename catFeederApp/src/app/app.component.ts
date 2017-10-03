@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Cat feeder';
+
+  //TODO: Pegar usuário logado
+  public user : string = 'Vanessa Marques';    
+  public loggedUser : boolean = false;
 }
