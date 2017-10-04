@@ -1,10 +1,14 @@
 <app-menu></app-menu>
 
 <div class="container">
-    <h1>{{title}}</h1>
+    <div class="jumbotron">
+        <h1>{{title}}</h1>
+        <p class="lead">{{description}}</p>
+    </div>
+
+    <router-outlet></router-outlet>
+
+    <footer class="footer">
+        <p>&copy; {{footer}}</p>
+    </footer>
 </div>
-
-
-<br/><br/>
-
-<router-outlet></router-outlet>
