@@ -2,11 +2,11 @@
     <div class="col-lg-6 columns">
         <h2>{{function1}}</h2>
         <p>{{function1Description}}</p>
-        <input type="checkbox" checked data-toggle="toggle">
+        <input type="checkbox" [(ngModel)]="automaticFeeder" data-toggle="toggle">
     </div>
     <div class="col-lg-6">
         <h2>{{function2}}</h2>
         <p>{{function2Description}}</p>
-        <input type="checkbox" checked data-toggle="toggle">
+        <input type="checkbox" [(ngModel)]="manualFeeder" data-toggle="toggle">
     </div>
 </div>
