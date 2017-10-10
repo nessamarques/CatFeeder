@@ -9,6 +9,7 @@ import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
+import { AwsService } from './aws.service';
 
 
 //import { BootstrapSwitchModule } from 'angular2-bootstrap-switch';
@@ -31,7 +32,9 @@ import { HomeComponent } from './home/home.component';
     //BootstrapSwitchModule.forRoot(),
     //BrowserAnimationsModule
   ],
-  // providers: [], //TODO: 
+  providers: [
+    AwsService
+  ],
   bootstrap: [AppComponent]
 })
 
