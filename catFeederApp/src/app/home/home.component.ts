@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { AppComponent } from '../app.component';
 //import {HomeService} from '../...'; //TODO
 
@@ -9,18 +9,16 @@ import { AppComponent } from '../app.component';
   //providers: [HomeService] //TODO
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnChanges {
 
-  public function1: string = 'Automatic feeder';
-  public function2: string = 'Manual feeder';
+  public automaticFunc: string = 'Automatic feeder';
+  public manualFunc: string = 'Manual feeder';
 
-  public function1Description: string = 'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. ';
-  public function2Description: string = 'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. ';
+  public automaticFuncDescription: string = 'Enable this feature that allows you to automatically feed your cat whenever it approaches the feeder. ';
+  public manualFuncDescription: string = 'Enable this feature to feed your cat whenever you want using the application. ';
 
   public automaticFeeder: boolean;
   public manualFeeder: boolean;
-
-  public teste: string = "teste";
 
   ngOnInit(): void {
 
@@ -28,6 +26,10 @@ export class HomeComponent implements OnInit {
     this.automaticFeeder = true;
     this.manualFeeder = false;
 
+  }
+
+  ngOnChanges(changes: any): void{
+    console.log("on change");
   }
 
 }
