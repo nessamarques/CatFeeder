@@ -1,3 +1,20 @@
 .toggle-off{
     background-color: lightgray;
 }
+
+input[type=checkbox] {
+    transform: scale(1.5);
+}
+
+td{
+    padding-right: 20px;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    line-height: 40px; /* adjust line height to align vertically*/
+    padding:10px;
+    text-align: center;
+    border-radius: 50%;
+  }

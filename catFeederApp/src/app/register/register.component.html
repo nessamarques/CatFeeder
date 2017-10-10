@@ -1,5 +1,5 @@
 <div class="container"> 
-    <form class="form-register" ng-submit="onsubmit()">
+    <form class="form-register"  (ngSubmit)="onSubmit($event)">
         <h2 class="form-register-heading">Register</h2>
 
         <input type="text" [(ngModel)]="name" id="inputName" class="form-control" placeholder="Name" required autofocus [ngModelOptions]="{standalone: true}">

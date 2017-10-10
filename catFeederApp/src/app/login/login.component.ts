@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms'
 import { AppComponent } from '../app.component';
-//import {LoginService} from '../...'; //TODO
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -11,9 +12,11 @@ import { AppComponent } from '../app.component';
 export class LoginComponent implements OnInit {
   public title: string = 'Please login';
   public app: any;
+  public router: Router;
 
-  constructor(appComp: AppComponent) {
+  constructor(appComp: AppComponent, router: Router) {
     this.app = appComp;
+    this.router = router;
   }
 
   public email: string = "";
@@ -24,12 +27,18 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onsubmit(){
-
-    //TODO: .. 
+  onSubmit(event: any){
 
     console.log("submit");
+    console.log("Email: " + this.email);
+    console.log("Password: " + this.password);
 
+    //TODO: validar login, chamar post e pegar o username 
     this.app.loggedUser = true;
+    this.app.username = this.email;
+
+    this.router.navigate(['/home']);
+
+    //TODO: "Recarregar" o menu superior (navbar) para exibir usuário logado.
   }
 }

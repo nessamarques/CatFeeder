@@ -1,9 +1,9 @@
 <div class="container"> 
-    <form class="form-signin" ng-submit="onsubmit()">
+    <form class="form-signin" (ngSubmit)="onSubmit($event)">
         <h2 class="form-signin-heading">Please sign in</h2>
         
         <input type="email" [(ngModel)]="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus [ngModelOptions]="{standalone: true}">
-        <input type="password" [(ngModel)]="password" id="inputPassword" class="form-control" placeholder="Password" required [ngModelOptions]="{standalone: true}">
+        <input type="password" [(ngModel)]="password" id="inputPassword" class="form-control" placeholder="Password" required [ngModelOptions]="{standalone: true}" >
         
         <div class="checkbox">
             <label>

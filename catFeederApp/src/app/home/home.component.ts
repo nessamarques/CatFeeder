@@ -1,15 +1,13 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-//import {HomeService} from '../...'; //TODO
 
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']//,
-  //providers: [HomeService] //TODO
+  styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, OnChanges {
+export class HomeComponent implements OnInit {
 
   public automaticFunc: string = 'Automatic feeder';
   public manualFunc: string = 'Manual feeder';
@@ -20,16 +18,22 @@ export class HomeComponent implements OnInit, OnChanges {
   public automaticFeeder: boolean;
   public manualFeeder: boolean;
 
+  public app: any;
+
+  constructor(appComp: AppComponent) {
+    this.app = appComp;
+  }
+
   ngOnInit(): void {
 
     // TODO: Pegar configurações salvas do banco
     this.automaticFeeder = true;
     this.manualFeeder = false;
 
-  }
+    console.log("Logged username: ");
+    console.log(this.app.username);
 
-  ngOnChanges(changes: any): void{
-    console.log("on change");
+    console.log("Logged user: ");
+    console.log(this.app.loggedUser);
   }
-
 }
