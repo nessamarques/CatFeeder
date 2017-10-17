@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { AwsService } from './aws.service';
 
 @Component({

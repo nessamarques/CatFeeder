@@ -26,6 +26,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(event: any){
+    
       //TODO: validar form e chamar post 
       this.router.navigate(['/login']);
   }
