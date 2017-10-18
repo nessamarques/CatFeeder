@@ -29,7 +29,7 @@ export class AwsService {
                 cat_count: shadow.state.reported.cat_count,
                 minutes_between_feeding: shadow.state.reported.minutes_between_feeding,
                 operation_mode: shadow.state.reported.operation_mode,
-                feed_count: shadow.state.reported.feed_count
+                //feed_count: shadow.state.reported.feed_count
               });
               if(!_.isEqual(this.catFeeder, reportedCatFeeder)) {
                 this.catFeeder = reportedCatFeeder;

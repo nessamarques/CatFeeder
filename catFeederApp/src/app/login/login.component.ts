@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms'
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../providers/auth.service';
-
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -13,7 +11,7 @@ import { AuthService } from '../providers/auth.service';
 
 export class LoginComponent implements OnInit {
   public title: string = 'Please login';
-  public app: any;
+  public app: AppComponent;
   public router: Router;
 
   constructor(appComp: AppComponent, router: Router) {
@@ -30,15 +28,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit(event: any){
 
-    console.log("submit");
-    console.log("Email: " + this.email);
-    console.log("Password: " + this.password);
+    let validLogin:boolean = false;
 
-    this.app.loggedUser = true;
-    this.app.username = this.email;
+    (this.app.usersList).forEach(item => {
+      if(item.email == this.email && item.password == this.password) {
+        validLogin = true;
+      }
+    });
 
-    //TODO: validar login, chamar post e pegar o username 
-    if(this.email == "admin@catfeeder.com" && this.password == "admin123") {
+    if(validLogin){
+      this.app.loggedUser = true;
+      this.app.username = this.email;
       this.router.navigate(['/home']);
     }
     else{

@@ -7,9 +7,7 @@ import 'rxjs/add/observable/fromEvent';
 import { AppComponent } from '../app.component';
 import { AwsService } from '../aws.service';
 
-//import { AngularFire } from 'angularfire2';
-//import { AngularFireDatabaseModule, AngularFireDatabase, FirebasListObservable } from "angularfire2/database";
-//import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'home', 
@@ -24,18 +22,25 @@ export class HomeComponent implements OnInit {
   minutes: number = 5;
   app: any;
   minutesControl = new FormControl();
-  constructor(appComp: AppComponent, private aws: AwsService) {//, af: AngularFireDatabase) {
-    this.app = appComp;
 
-    //this.items = af.list('/items');
-    //console.log("Firebase items: ");
-    //console.log(this.items);
+  items: FirebaseObjectObservable<any[]>;
+
+  constructor(appComp: AppComponent, private aws: AwsService, db: AngularFireDatabase) {
+    this.app = appComp;
+    this.items = db.object('cat');
+
+    this.items.subscribe(
+      (proj) =>  {
+        console.log("Firebase items: ");
+        console.log(proj);
+      }
+    );
 
     aws.catFeeder$.subscribe(c => {
       this.mode = c.operation_mode;
       this.minutes = c.minutes_between_feeding;
       this.count = c.cat_count;
-      this.feed_count = c.feed_count;
+      //this.feed_count = c.feed_count;
     });
   }
 
@@ -46,12 +51,6 @@ export class HomeComponent implements OnInit {
       .subscribe(value => {
         this.aws.changePeriod(value);
       });
-    console.log("Logged username: ");
-    console.log(this.app.username);
-
-    console.log("Logged user: ");
-    console.log(this.app.loggedUser);
-
   }
 
   modeChanged(value) {
@@ -61,8 +60,6 @@ export class HomeComponent implements OnInit {
   }
 
   feedTheCat(){
-    console.log("Feed the cat!");
     this.aws.feed();
-    // TODO: Enviar comando que permite alimentar o gato.
   }
 }
