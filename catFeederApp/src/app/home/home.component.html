@@ -1,27 +1,40 @@
 <div class="row">
-    <div class="col-lg-6 columns">
+    <div class="col-lg-4 columns">
         <table>
             <tr>
-                <td><input type="checkbox" id="automaticFeeder" [(ngModel)]="automaticFeeder" ></td>
-                <td><label class="checkLabel" for="automaticFeeder">{{automaticFunc}}</label></td>
+                <td><input id="automatic" name="mode" type="radio" [value]="0"  [(ngModel)]="mode"><br/></td>
+                <td><label for="automatic">Automatic feeder</label></td>
             </tr>
         </table>    
-        <p>{{automaticFuncDescription}}</p>
+        <p>Feeds your cat whenever it approaches the feeder.</p>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <table>
             <tr>
-                <td><input type="checkbox" id="manualFeederCheck" [(ngModel)]="manualFeeder" ></td>
-                <td><label class="checkLabel" for="manualFeederCheck">{{manualFunc}}</label></td>
+                <td><input id="periodic" name="mode" type="radio" [value]="1"  [(ngModel)]="mode"></td>
+                <td><label for="periodic">Periodic feeder</label></td>
             </tr>
         </table> 
-        <p>{{manualFuncDescription}}</p>
+        <p>Feeds your cat every {{minutes}} minutes.</p>
+    </div>
+    <div class="col-lg-4">
+        <table>
+            <tr>
+                <td><input id="both" name="mode" type="radio" [value]="2"  [(ngModel)]="mode"></td>
+                <td><label for="both">Both</label></td>
+            </tr>
+        </table> 
+        <p>Feeds your cat whenever it approaches the feeder or every {{minutes}} minutes.</p>
     </div>
 </div>
-
+<div class="row justify-content-center">
+    <div class="col-lg-4 minutes-container">
+        <label for="minutes">Feed cat every:</label><input id="minutes" type="number" min="1" max="999" [(ngModel)]="minutes"/>minutes
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-6">
-        <div *ngIf="automaticFeeder">
+        <div *ngIf="mode == 2">         
             <label>Show Charts</label>
 
             <chart></chart>

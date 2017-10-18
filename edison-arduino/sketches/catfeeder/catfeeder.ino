@@ -82,6 +82,8 @@ uint32_t cat_count = 0;
 uint16_t minutes_between_feeding = 1;
 uint32_t last_feeding_seconds = 0;
 
+IoT_Publish_Message_Params paramsQOS0;
+char cPayload[100];
 
 void ShadowUpdateStatusCallback(const char *pThingName, ShadowActions_t action, Shadow_Ack_Status_t status,
                 const char *pReceivedJsonDocument, void *pContextData) {
@@ -159,7 +161,7 @@ void setup() {
   operation_mode_json.cb = operation_mode_Callback;
   operation_mode_json.pKey = "operation_mode";
   operation_mode_json.pData = &operation_mode;
-  operation_mode_json.type = SHADOW_JSON_UINT32;
+  operation_mode_json.type = SHADOW_JSON_UINT8;
 
   minutes_between_feeding_json.cb = minutes_between_feeding_Callback;
   minutes_between_feeding_json.pKey = "minutes_between_feeding";
@@ -229,6 +231,10 @@ void setup() {
   if(SUCCESS != rc) {
     Serial.println("Shadow Register Minutes Between Feeding Delta Error");
   }
+  paramsQOS0.qos = QOS0;
+  paramsQOS0.payload = (void *) cPayload;
+  paramsQOS0.isRetained = 0;
+  publishToCatAte();
 }
 
 void loop() {
@@ -278,7 +284,7 @@ void calculateState() {
     break;
   }
   switch(cat_state) {
-    case C_AWAY:
+    case C_AWAY: 
       lcd.print("AWAY    ");
     break;
     case C_DETECTED:
@@ -295,6 +301,7 @@ void calculateState() {
         //If cat stayed longer than CAT_FEEDING_PERIOD, then consider that cat ate.
         if((millis() - cat_presence_timestamp) > CAT_FEEDING_PERIOD) {
           cat_count++;
+          publishToCatAte();
         }
       }
     break;
@@ -333,6 +340,14 @@ bool feedCat() {
   return false;
 }
 
+void publishToCatAte() {
+  sprintf(cPayload, "{\"message\": \"%s\"}", "cat ate");
+  Serial.println(cPayload);
+  paramsQOS0.payloadLen = strlen(cPayload);
+  aws_iot_mqtt_publish(&mqttClient, "cat_ate", 7, &paramsQOS0);
+}
+
+
 void printLCD() {
   lcd.setCursor(0, 0);
   switch(operation_mode) {
@@ -361,7 +376,7 @@ void printLCD() {
   lcd.print(feed_count);
   lcd.print("             ");
   lcd.setCursor(0, 1);
-  lcd.print(minutes_between_feeding, 3);
+  lcd.print(minutes_between_feeding);
   lcd.setCursor(4, 1);
   switch(cat_state) {
     case C_AWAY:

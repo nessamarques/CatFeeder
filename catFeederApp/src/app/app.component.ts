@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { AwsService } from './aws.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,8 +6,7 @@ import { AwsService } from './aws.service';
 })
 
 export class AppComponent {
-  constructor(aws:AwsService) {
-    aws.test();
+  constructor() {
    }
   //TODO: Pegar usuário logado
   public username : string = '';    

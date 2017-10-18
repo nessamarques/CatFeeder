@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { AwsService } from '../aws.service';
 
 @Component({
   selector: 'home', 
@@ -9,25 +10,21 @@ import { AppComponent } from '../app.component';
 
 export class HomeComponent implements OnInit {
 
-  public automaticFunc: string = 'Automatic feeder';
-  public manualFunc: string = 'Manual feeder';
+  count: number = 0;
+  mode: number = 1;
+  minutes: number = 5;
+  app: any;
 
-  public automaticFuncDescription: string = 'Enable this feature to automatically feed your cat whenever it approaches the feeder.';
-  public manualFuncDescription: string = 'Enable this feature to feed your cat whenever you want using the application.';
-
-  public automaticFeeder: boolean;
-  public manualFeeder: boolean;
-
-  public app: any;
-
-  constructor(appComp: AppComponent) {
+  constructor(appComp: AppComponent, aws: AwsService) {
     this.app = appComp;
+    aws.catFeeder$.subscribe(c => {
+      this.mode = c.operation_mode;
+      this.minutes = c.minutes_between_feeding;
+      this.count = c.cat_count;
+    });
   }
 
   ngOnInit(): void {
-    // TODO: Pegar configurações salvas do banco
-    this.automaticFeeder = true;
-    this.manualFeeder = false;
 
     console.log("Logged username: ");
     console.log(this.app.username);

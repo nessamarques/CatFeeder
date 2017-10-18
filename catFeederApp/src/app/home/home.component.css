@@ -5,6 +5,20 @@
 input[type=checkbox] {
     transform: scale(1.5);
 }
+.minutes-container {
+    text-align: left;
+}
+    .minutes-container label {
+        font-size: 1em;
+    }
+    .minutes-container input {
+        text-align: center;
+        margin: 0px 5px;
+    }
+label {
+    font-size: 1.5em;
+    font-weight: bold;
+}
 
 td{
     padding-right: 20px;
