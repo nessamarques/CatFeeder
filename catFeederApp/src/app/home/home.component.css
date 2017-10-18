@@ -34,10 +34,6 @@ td{
     margin-top: 0;
 }
 
-.divFeedButton{
-    text-align: center;
-}
-
 .btn-circle.btn-xl {
     width: 150px;
     height: 150px;
@@ -46,4 +42,9 @@ td{
     line-height: 1.33;
     border-radius: 80px;
     text-align: center;
+}
+
+.divFeedButton{
+    text-align: center;
+    padding-bottom: 15px;
 }

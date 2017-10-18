@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms'
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../providers/auth.service';
+
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -23,7 +25,6 @@ export class LoginComponent implements OnInit {
   public password: string = "";
   public rememberme: boolean = false;
 
-
   ngOnInit(): void {
   }
 
@@ -33,11 +34,16 @@ export class LoginComponent implements OnInit {
     console.log("Email: " + this.email);
     console.log("Password: " + this.password);
 
-    //TODO: validar login, chamar post e pegar o username 
     this.app.loggedUser = true;
     this.app.username = this.email;
 
-    this.router.navigate(['/home']);
+    //TODO: validar login, chamar post e pegar o username 
+    if(this.email == "admin@catfeeder.com" && this.password == "admin123") {
+      this.router.navigate(['/home']);
+    }
+    else{
+      alert("Usuário ou senha incorretos."); //TODO: Exibir mensagem bonitinha.
+    }
 
     //TODO: "Recarregar" o menu superior (navbar) para exibir usuário logado.
   }

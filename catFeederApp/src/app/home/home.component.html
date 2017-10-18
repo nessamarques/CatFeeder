@@ -34,16 +34,10 @@
 </div>
 <div class="row">
     <div class="col-lg-6">
-        <div *ngIf="mode == 2">         
-            <label>Show Charts</label>
-
-            <chart></chart>
-        </div>
+        <chart></chart>
     </div>
-
-
-    <div class="col-lg-6 divFeedButton">
-        <div  *ngIf="manualFeeder">
+    <div class="col-lg-6">
+        <div class="divFeedButton">
             <button type="button" class="btn btn-info btn-circle btn-xl" (click)="feedTheCat()">FEED</button>
         </div>
     </div>
