@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http' ;
-import { FormsModule }   from '@angular/forms';   
+import { FormsModule, ReactiveFormsModule  }   from '@angular/forms';   
 import { AppRoutingModule } from './routing.module';
 import { ChartsModule } from 'ng2-charts';
 //import { AngularFireModule } from 'angularfire2';
@@ -42,7 +42,7 @@ export const firebaseConfig = {
     FormsModule,
     AppRoutingModule,
     ChartsModule,
-    //AngularFireModule.initializeApp(firebaseConfig)
+    ReactiveFormsModule 
   ],
   providers: [
     AwsService,

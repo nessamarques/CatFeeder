@@ -12,10 +12,7 @@ export class AwsService {
   private catFeeder: CatFeeder = null;
   private catFeederSubject: BehaviorSubject<CatFeeder> = new BehaviorSubject(null);
   private catFeederSource: Observable<CatFeeder> = Observable.create( (observer: Observer<CatFeeder>) => {
-    if(this.catFeeder != null) {
-      observer.next(this.catFeeder);
-    }
-    var intervalID = setInterval(() => {
+    let getShadow = () =>{
       let params = {
         thingName: this.THING_NAME /* required */
       };
@@ -31,7 +28,8 @@ export class AwsService {
               let reportedCatFeeder = new CatFeeder({
                 cat_count: shadow.state.reported.cat_count,
                 minutes_between_feeding: shadow.state.reported.minutes_between_feeding,
-                operation_mode: shadow.state.reported.operation_mode
+                operation_mode: shadow.state.reported.operation_mode,
+                feed_count: shadow.state.reported.feed_count
               });
               if(!_.isEqual(this.catFeeder, reportedCatFeeder)) {
                 this.catFeeder = reportedCatFeeder;
@@ -41,7 +39,13 @@ export class AwsService {
           }
         }
       });
-    }, 10000); //Update every 10 seconds
+    }
+    if(this.catFeeder != null) {
+      observer.next(this.catFeeder);
+    } else {
+      getShadow();
+    }
+    var intervalID = setInterval(getShadow, 10000); //Update every 10 seconds
     return function unsubscribe() {
       clearInterval(intervalID);
     };

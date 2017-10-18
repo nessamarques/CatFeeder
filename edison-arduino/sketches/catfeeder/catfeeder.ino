@@ -42,11 +42,11 @@ char s[MAX_MESSAGE_LENGTH];
 #define PIR_MOTION_SENSOR 8
 
 #define DEBOUNCE_DELAY 300
-#define MOTION_DELAY 7000 
-#define CAT_FEEDING_PERIOD 20000
+#define MOTION_DELAY 3000 
+#define CAT_FEEDING_PERIOD 5000
 #define FEEDING_DURATION 550
 #define FEEDING_DURATION_WITH_SERVO 1200
-#define AWS_UPDATE_PERIOD 5000 //Used for aws update period
+#define AWS_UPDATE_PERIOD 1000 //Used for aws update period
 
 //Servo angles for feeder
 #define CLOSED_ANGLE 0
@@ -82,6 +82,8 @@ uint32_t cat_count = 0;
 uint16_t minutes_between_feeding = 1;
 uint32_t last_feeding_seconds = 0;
 
+bool shouldUpdateShadow = false;
+
 IoT_Publish_Message_Params paramsQOS0;
 char cPayload[100];
 
@@ -102,6 +104,7 @@ void ShadowUpdateStatusCallback(const char *pThingName, ShadowActions_t action, 
 }
 
 void remote_button_count_Callback(const char *pJsonString, uint32_t JsonStringDataLen, jsonStruct_t *pContext) {
+  shouldUpdateShadow = true;
   IOT_UNUSED(pJsonString);
   IOT_UNUSED(JsonStringDataLen);
 
@@ -117,6 +120,7 @@ void remote_button_count_Callback(const char *pJsonString, uint32_t JsonStringDa
 }
 
 void operation_mode_Callback(const char *pJsonString, uint32_t JsonStringDataLen, jsonStruct_t *pContext) {
+  shouldUpdateShadow = true;
   IOT_UNUSED(pJsonString);
   IOT_UNUSED(JsonStringDataLen);
 
@@ -127,6 +131,7 @@ void operation_mode_Callback(const char *pJsonString, uint32_t JsonStringDataLen
 }
 
 void minutes_between_feeding_Callback(const char *pJsonString, uint32_t JsonStringDataLen, jsonStruct_t *pContext) {
+  shouldUpdateShadow = true;
   IOT_UNUSED(pJsonString);
   IOT_UNUSED(JsonStringDataLen);
 
@@ -234,7 +239,6 @@ void setup() {
   paramsQOS0.qos = QOS0;
   paramsQOS0.payload = (void *) cPayload;
   paramsQOS0.isRetained = 0;
-  publishToCatAte();
 }
 
 void loop() {
@@ -242,7 +246,7 @@ void loop() {
     calculateState();
    if(millis() - lastUpdate > AWS_UPDATE_PERIOD && (NETWORK_ATTEMPTING_RECONNECT == rc || NETWORK_RECONNECTED == rc || SUCCESS == rc)) {
     rc = aws_iot_shadow_yield(&mqttClient, 200);
-    if(NETWORK_ATTEMPTING_RECONNECT != rc) {
+    if(shouldUpdateShadow && NETWORK_ATTEMPTING_RECONNECT != rc) {
       rc = aws_iot_shadow_init_json_document(JsonDocumentBuffer, sizeOfJsonDocumentBuffer);
       if(SUCCESS == rc) {
         rc = aws_iot_shadow_add_reported(JsonDocumentBuffer, sizeOfJsonDocumentBuffer, 5, &feed_count_json, &remote_button_count_json,
@@ -253,9 +257,8 @@ void loop() {
             sprintf(s, "Update Shadow: %s", JsonDocumentBuffer);
             Serial.println(s);
             rc = aws_iot_shadow_update(&mqttClient, AWS_IOT_MY_THING_NAME, JsonDocumentBuffer,
-                           ShadowUpdateStatusCallback, NULL, 4, true);
-            sprintf(s, "Update Result: %d", rc);
-            Serial.println(s);
+                           NULL, NULL, 30, true);
+            shouldUpdateShadow = false;
           }
         }
       }
@@ -278,6 +281,7 @@ void calculateState() {
         myservo.write(CLOSED_ANGLE);
       }
       if ((millis() - feeding_timestamp) > FEEDING_DURATION_WITH_SERVO) {
+        shouldUpdateShadow = true;
         feed_count++;
         feeder_state = F_IDLE;
       }
@@ -311,9 +315,8 @@ void timerInterrupt() {
   last_feeding_seconds++;
   if(operation_mode == PERIODIC || operation_mode == BOTH) {
     if(last_feeding_seconds > (minutes_between_feeding * 60)) {
-      if(feedCat()){
-        last_feeding_seconds = 0;
-      }
+      feeder_state = F_START_FEEDING;
+      last_feeding_seconds = 0;
     }
   }
 }
@@ -341,8 +344,9 @@ bool feedCat() {
 }
 
 void publishToCatAte() {
+  shouldUpdateShadow = true;
   sprintf(cPayload, "{\"message\": \"%s\"}", "cat ate");
-  Serial.println(cPayload);
+  Serial.println("Published to cat_ate.");
   paramsQOS0.payloadLen = strlen(cPayload);
   aws_iot_mqtt_publish(&mqttClient, "cat_ate", 7, &paramsQOS0);
 }

@@ -1,8 +1,11 @@
 <div class="row">
+    <div class="col-lg-12">Portions given: {{feed_count}}</div>
+</div>
+<div class="row">
     <div class="col-lg-4 columns">
         <table>
             <tr>
-                <td><input id="automatic" name="mode" type="radio" [value]="0"  [(ngModel)]="mode"><br/></td>
+                <td><input id="automatic" name="mode" type="radio" [value]="0"  [ngModel]="mode" [ngModel]="selectedItem" (ngModelChange)="modeChanged($event)"><br/></td>
                 <td><label for="automatic">Automatic feeder</label></td>
             </tr>
         </table>    
@@ -11,7 +14,7 @@
     <div class="col-lg-4">
         <table>
             <tr>
-                <td><input id="periodic" name="mode" type="radio" [value]="1"  [(ngModel)]="mode"></td>
+                <td><input id="periodic" name="mode" type="radio" [value]="1"  [ngModel]="mode" (ngModelChange)="modeChanged($event)"></td>
                 <td><label for="periodic">Periodic feeder</label></td>
             </tr>
         </table> 
@@ -20,7 +23,7 @@
     <div class="col-lg-4">
         <table>
             <tr>
-                <td><input id="both" name="mode" type="radio" [value]="2"  [(ngModel)]="mode"></td>
+                <td><input id="both" name="mode" type="radio" [value]="2"  [ngModel]="mode" (ngModelChange)="modeChanged($event)"></td>
                 <td><label for="both">Both</label></td>
             </tr>
         </table> 
@@ -29,7 +32,8 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-lg-4 minutes-container">
-        <label for="minutes">Feed cat every:</label><input id="minutes" type="number" min="1" max="999" [(ngModel)]="minutes"/>minutes
+        <label for="minutes">Feed cat every:</label>
+        <input [formControl]="minutesControl" id="minutes" type="number" min="1" max="999" [(ngModel)]="minutes"/>minutes
     </div>
 </div>
 <div class="row">
