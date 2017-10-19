@@ -14,14 +14,6 @@ export class ChartComponent implements OnInit {
     labels: Array<string> = [];
     ngOnInit(): void {
     }
-
-    // TODO: Get AWS Data
-    public lineChartData:Array<any> = [
-        {data: [4, 3, 4, 2], label: 'Times'},
-    ];
-
-    // TODO: Get AWS Dates and times
-    public lineChartLabels:Array<any> = ['10/14', '10/15', '10/16', '10/17'];
     
     public lineChartOptions:any = {
         responsive: true
@@ -29,7 +21,7 @@ export class ChartComponent implements OnInit {
     
     public lineChartColors:Array<any> = [
         {
-            backgroundColor: 'rgba(148,159,177,1)',
+            backgroundColor: 'rgba(0,0,255,0.3)',
             borderColor: 'rgba(148,159,177,1)',
             pointBackgroundColor: 'rgba(148,159,177,1)',
             pointBorderColor: '#fff',

@@ -1,9 +1,16 @@
+
 .navbar{
     background-color: #94BA33;
 
     -webkit-box-shadow: 0 8px 6px -6px #999;
     -moz-box-shadow: 0 8px 6px -6px #999;
     box-shadow: 0 8px 6px -6px #999;
+
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+
+    z-index: 20;
 }
 
 .nav-link{

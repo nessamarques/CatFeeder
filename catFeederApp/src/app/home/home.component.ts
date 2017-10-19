@@ -6,6 +6,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/fromEvent';
 import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 import { AwsService } from '../aws.service';
 
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -29,13 +30,20 @@ export class HomeComponent implements OnInit {
   timestampList = new Array<any>();
   dateList: Array<Date>;
 
-  constructor( private aws: AwsService, private db: AngularFireDatabase, private datePipe: DatePipe){
+  public app: AppComponent;
+  public router: Router;
+
+  constructor( private aws: AwsService, private db: AngularFireDatabase, private datePipe: DatePipe, appComp: AppComponent, router: Router){
+
+    this.app = appComp;
+    this.router = router;
 
     (db.list('cat')).subscribe(proj => {
         this.timestampList = proj;
         this.dateList = new Array<Date>();
         let index = -1;
         let lastLabel = "";
+        
         //Chart 1
         let data = [];
         let labels = [];
@@ -77,6 +85,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if(!this.app.loggedUser){
+      this.router.navigate(['/login']);
+    }
+    else{
+      this.router.navigate(['/home']);
+    }
+
     this.minutesControl.valueChanges
       .debounceTime(1000)
       .distinctUntilChanged()

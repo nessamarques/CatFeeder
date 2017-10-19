@@ -9,6 +9,7 @@ input[type=checkbox] {
     text-align: center;
     font-size: 1.1em;
     font-weight: bold;
+    margin-bottom: 30px;
 }
 .minutes-container {
     text-align: left;
@@ -51,5 +52,9 @@ td{
 
 .divFeedButton{
     text-align: center;
-    padding-bottom: 15px;
+    margin-top: 50px;
+}
+
+.charts{
+    margin-top: 50px;
 }

@@ -10,7 +10,7 @@ import { AppComponent } from '../app.component';
 export class MenuComponent {
 
   public app: AppComponent;
-  
+
     constructor(appComp: AppComponent) {
       this.app = appComp;
     }

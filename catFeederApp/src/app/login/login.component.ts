@@ -30,21 +30,22 @@ export class LoginComponent implements OnInit {
 
     let validLogin:boolean = false;
 
+    let selectedUser;
+
     (this.app.usersList).forEach(item => {
       if(item.email == this.email && item.password == this.password) {
         validLogin = true;
+        selectedUser = item;
       }
     });
 
     if(validLogin){
       this.app.loggedUser = true;
-      this.app.username = this.email;
+      this.app.username = selectedUser.username;
       this.router.navigate(['/home']);
     }
     else{
       alert("Usuário ou senha incorretos."); //TODO: Exibir mensagem bonitinha.
     }
-
-    //TODO: "Recarregar" o menu superior (navbar) para exibir usuário logado.
   }
 }
