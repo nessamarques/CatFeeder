@@ -7,7 +7,7 @@ import 'rxjs/add/observable/fromEvent';
 import { AppComponent } from '../app.component';
 import { AwsService } from '../aws.service';
 
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'home', 
@@ -20,19 +20,18 @@ export class HomeComponent implements OnInit {
   count: number = 0;
   mode: number = 1;
   minutes: number = 5;
-  app: any;
   minutesControl = new FormControl();
 
-  items: FirebaseObjectObservable<any[]>;
+  timestampList = new Array<any[]>();
 
-  constructor(appComp: AppComponent, private aws: AwsService, db: AngularFireDatabase) {
-    this.app = appComp;
-    this.items = db.object('cat');
+  constructor( private aws: AwsService, private db: AngularFireDatabase){
 
-    this.items.subscribe(
-      (proj) =>  {
-        console.log("Firebase items: ");
-        console.log(proj);
+    (db.list('cat')).subscribe(proj => {
+        this.timestampList = proj;
+
+        console.log("Items:");
+        console.log(this.timestampList);
+
       }
     );
 
@@ -40,7 +39,7 @@ export class HomeComponent implements OnInit {
       this.mode = c.operation_mode;
       this.minutes = c.minutes_between_feeding;
       this.count = c.cat_count;
-      //this.feed_count = c.feed_count;
+      this.feed_count = c.feed_count;
     });
   }
 

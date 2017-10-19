@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-menu',
@@ -8,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
 
+  public app: AppComponent;
+  
+    constructor(appComp: AppComponent) {
+      this.app = appComp;
+    }
 }
