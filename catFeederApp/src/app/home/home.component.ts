@@ -18,19 +18,23 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class HomeComponent implements OnInit {
   feed_count: number = 0;
   count: number = 0;
-  mode: number = 1;
-  minutes: number = 5;
+  mode: number = null;
+  minutes: number = null;
   minutesControl = new FormControl();
 
-  timestampList = new Array<any[]>();
+  timestampList = new Array<any>();
+  dateList: Array<Date>;
 
   constructor( private aws: AwsService, private db: AngularFireDatabase){
 
     (db.list('cat')).subscribe(proj => {
         this.timestampList = proj;
-
+        this.dateList = new Array<Date>();
+        this.timestampList.forEach( i => {
+          this.dateList.push(new Date(i.$value));
+        });
         console.log("Items:");
-        console.log(this.timestampList);
+        console.log(this.dateList);
 
       }
     );
@@ -48,12 +52,14 @@ export class HomeComponent implements OnInit {
       .debounceTime(1000)
       .distinctUntilChanged()
       .subscribe(value => {
-        this.aws.changePeriod(value);
+        if(this.minutes != null) {
+          this.aws.changePeriod(value);
+        }
       });
   }
 
   modeChanged(value) {
-    if(value != this.mode) {
+    if(this.mode != null && value != this.mode) {
       this.aws.changeMode(value);
     }
   }
