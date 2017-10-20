@@ -1,4 +1,5 @@
 import { environment } from './../environments/environment.prod';
+import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http' ;
@@ -42,7 +43,8 @@ import { AwsService } from './aws.service';
     AngularFireAuthModule
   ],
   providers: [
-    AwsService
+    AwsService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

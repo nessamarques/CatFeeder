@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import {FormControl} from '@angular/forms';
 import {Observable}  from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
@@ -21,21 +22,49 @@ export class HomeComponent implements OnInit {
   mode: number = null;
   minutes: number = null;
   minutesControl = new FormControl();
-
+  series1 = [{ data:[], label: "Times the cat ate"}];
+  labels1 = [];
+  series2 = [{ data:[], label: "Times the cat ate"}];
+  labels2 = [];
   timestampList = new Array<any>();
   dateList: Array<Date>;
 
-  constructor( private aws: AwsService, private db: AngularFireDatabase){
+  constructor( private aws: AwsService, private db: AngularFireDatabase, private datePipe: DatePipe){
 
     (db.list('cat')).subscribe(proj => {
         this.timestampList = proj;
         this.dateList = new Array<Date>();
+        let index = -1;
+        let lastLabel = "";
+        //Chart 1
+        let data = [];
+        let labels = [];
         this.timestampList.forEach( i => {
-          this.dateList.push(new Date(i.$value));
+          let dateString = this.datePipe.transform(new Date(i.$value), "MM/dd");
+          if(lastLabel == dateString) {
+            data[index] = data[index] + 1;
+          } else {
+            index++;
+            data.push(1);
+            labels.push(dateString);
+            lastLabel = dateString;
+          }
         });
-        console.log("Items:");
-        console.log(this.dateList);
-
+        this.series1[0].data = data;
+        this.labels1 = labels;
+        //Chart 2
+        data = [];
+        labels = [];
+        for(let h = 1; h <= 24; h++) {
+          data.push(0);
+          labels.push(h + ":00");
+        }
+        this.timestampList.forEach( i => {
+          let hour = this.datePipe.transform(new Date(i.$value), "h");
+          data[hour] = data[hour] + 1;
+        });
+        this.series2[0].data = data;
+        this.labels2 = labels;
       }
     );
 

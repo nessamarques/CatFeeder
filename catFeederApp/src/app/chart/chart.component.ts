@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'chart', 
-  templateUrl: 'chart.component.html'
+  templateUrl: 'chart.component.html',
+  styleUrls: ['./chart.component.css']
 })
 
 export class ChartComponent implements OnInit {
-
+    @Input()
+    series: Array<any> = [];
+    @Input()
+    labels: Array<string> = [];
     ngOnInit(): void {
     }
 
@@ -25,7 +29,7 @@ export class ChartComponent implements OnInit {
     
     public lineChartColors:Array<any> = [
         {
-            backgroundColor: 'rgba(148,159,177,0.2)',
+            backgroundColor: 'rgba(148,159,177,1)',
             borderColor: 'rgba(148,159,177,1)',
             pointBackgroundColor: 'rgba(148,159,177,1)',
             pointBorderColor: '#fff',
@@ -35,27 +39,6 @@ export class ChartComponent implements OnInit {
     ];
     
     public lineChartLegend:boolean = true;
-    public lineChartType:string = 'line';
-    
-    public randomize():void {
-        let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-        for (let i = 0; i < this.lineChartData.length; i++) {
-            _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-            for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-                _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-            }
-        }
-        this.lineChartData = _lineChartData;
-    }
-    
-    // events
-    public chartClicked(e:any):void {
-        console.log("chartClicked");
-        console.log(e);
-    }
-    
-    public chartHovered(e:any):void {
-        console.log("chartHovered");
-        console.log(e);
-    }
+    public lineChartType:string = 'bar';
+      
 }

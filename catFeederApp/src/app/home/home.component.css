@@ -5,6 +5,11 @@
 input[type=checkbox] {
     transform: scale(1.5);
 }
+.feed-button-container {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+}
 .minutes-container {
     text-align: left;
 }
