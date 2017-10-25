@@ -23,7 +23,7 @@ export class AppComponent  implements OnInit {
   
   public usersList: { username: string, password: string, email: string }[] = [
       { "username": "admin", "password": "admin123","email": "admin@catfeeder.com"  }, // Login cadastrado no Firebase
-      { "username": "admin", "password": "admin","email": "admin"  }
+      { "username": "Vanessa", "password": "admin","email": "admin"  }
   ];
 
   public title: string = 'Cat feeder';

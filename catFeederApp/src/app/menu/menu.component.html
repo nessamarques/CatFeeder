@@ -14,8 +14,15 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <div *ngIf="app.loggedUser">
-          <a class="nav-link" routerLink="/home">Welcome {{app.username}}</a>
+        <div  class="row" *ngIf="app.loggedUser">
+          <div class="col-lg-9">
+            <a class="nav-link">Welcome {{app.username}}</a>
+          </div>
+          <div class="col-lg-3">
+            <a class="navbar-brand" (click)="logout()">
+              <img src="assets/images/logout_24x24.png" alt="">
+            </a>
+          </div>
         </div>
         <div *ngIf="!app.loggedUser">
           <a class="nav-link" routerLink="/login"><span class="glyphicon glyphicon-log-in"></span>Sign in</a>

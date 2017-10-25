@@ -28,8 +28,7 @@ export class HomeComponent implements OnInit {
   series2 = [{ data:[], label: "Times the cat ate"}];
   labels2 = [];
   timestampList = new Array<any>();
-  dateList: Array<Date>;
-
+  
   public app: AppComponent;
   public router: Router;
 
@@ -40,13 +39,13 @@ export class HomeComponent implements OnInit {
 
     (db.list('cat')).subscribe(proj => {
         this.timestampList = proj;
-        this.dateList = new Array<Date>();
         let index = -1;
         let lastLabel = "";
         
         //Chart 1
         let data = [];
         let labels = [];
+        
         this.timestampList.forEach( i => {
           let dateString = this.datePipe.transform(new Date(i.$value), "MM/dd");
           if(lastLabel == dateString) {
@@ -60,19 +59,24 @@ export class HomeComponent implements OnInit {
         });
         this.series1[0].data = data;
         this.labels1 = labels;
+
         //Chart 2
         data = [];
         labels = [];
+        
         for(let h = 1; h <= 24; h++) {
           data.push(0);
           labels.push(h + ":00");
         }
+        
         this.timestampList.forEach( i => {
-          let hour = this.datePipe.transform(new Date(i.$value), "h");
+          let hour = this.datePipe.transform(new Date(i.$value), "H");
           data[hour] = data[hour] + 1;
         });
+
         this.series2[0].data = data;
         this.labels2 = labels;
+
       }
     );
 
